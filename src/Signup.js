@@ -2,13 +2,15 @@ import React, {useState}from 'react';
 import { Button, DatePicker, version,Form, Input,Checkbox  } from "antd";
 import {auth} from './config'
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore"; 
 import { useNavigate } from "react-router-dom";   
+import {db} from './config'
 function Signup(){
    const navigate = useNavigate();
     const [username,setusername] = useState('');
     const [email,setemail] = useState('');
     const [password,setpassword] = useState('');
-  
 
     const loginHandler = async() => {
         console.log(auth,email,password)
@@ -17,7 +19,17 @@ function Signup(){
         .then((userCredential) => {
           // Signed in 
           const user = userCredential.user;
-          console.log(user)
+         
+          setDoc(doc(db, "users", user.uid), {
+            name: username,
+            id: user.uid,
+           
+          })
+
+
+
+
+
           // ...
         })
         .catch((error) => {

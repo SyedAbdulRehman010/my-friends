@@ -4,6 +4,7 @@ import {auth} from './config'
 import { useNavigate } from "react-router-dom";   
 import { signInWithEmailAndPassword } from "firebase/auth";
 import './index.css';
+
 function Login(){
   const navigate = useNavigate();
   const [username,setusername] = useState('');
@@ -20,6 +21,7 @@ function Login(){
         const user = userCredential.user;
         console.log(auth,email,password)
         console.log('user logged in. ')
+        navigate('/home')
         // ...
       })
       .catch((error) => {
