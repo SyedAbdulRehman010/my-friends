@@ -19,7 +19,7 @@ function Login(){
         // Signed in 
         const user = userCredential.user;
         console.log(auth,email,password)
-        console.log('user logged in ')
+        console.log('user logged in. ')
         // ...
       })
       .catch((error) => {
