@@ -1,9 +1,10 @@
 import React, {useState}from 'react';
 import { Button, DatePicker, version,Form, Input,Checkbox  } from "antd";
 import {auth} from './config'
-import { createUserWithEmailAndPassword } from "firebase/auth";   
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";   
 function Signup(){
-    
+   const navigate = useNavigate();
     const [username,setusername] = useState('');
     const [email,setemail] = useState('');
     const [password,setpassword] = useState('');
@@ -90,7 +91,7 @@ autoComplete="off"
   <Button type="primary" htmlType="submit" onClick={loginHandler}>
     SignUp
   </Button>
-  <Button type="primary" htmlType="submit" >
+  <Button type="primary" htmlType="submit" onClick={() => navigate('./signin')}>
     SignIn
   </Button>
 </Form.Item>
