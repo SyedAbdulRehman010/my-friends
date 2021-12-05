@@ -1,7 +1,7 @@
 
 
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore'
+import { getFirestore, collection, getDocs } from 'firebase/firestore'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 const firebaseConfig = {
     apiKey: "AIzaSyArw6h-3S50u1zroPSv-LgHP5fSNvykHAM",
@@ -16,5 +16,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const stateChange = onAuthStateChanged;
+// table ref
+const colRef = collection(db,'users')
 
 export { firebaseConfig, auth, db, stateChange }

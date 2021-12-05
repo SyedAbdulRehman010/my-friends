@@ -1,15 +1,45 @@
 import { Card, Avatar } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { Modal, Button,Form,Input } from 'antd';
-import { collection, query, where } from "firebase/firestore";
-import {db} from './config'
+import {useParams} from 'react-router-dom'
+import { collection,getDocs,query,where,onSnapshot ,doc,updateDoc} from "firebase/firestore";
+import {db} from './config';
+import {Userdet} from './login'
+
+
+
+
+
+
 function Home(){
-const citiesRef = collection(db, "users");  
+  const [useremail,setuseremail] = useState();
+  const [username,setusername] = useState();
+  const {email} = useParams()
+ 
+  console.log(email)
+  
+  const colRef = collection(db,'users')
+  getDocs(colRef).then((snapshot)=>{console.log(snapshot.docs)})
+  const q = query(colRef,where("email","==",email))
+  
+
+  onSnapshot(q,(snapshot)=>{
+    let userdet=[]
+    snapshot.docs.map((doc)=>{
+      userdet.push({...doc.data()})
+    })
+    console.log(userdet)
+    console.log(userdet [0].name)
+    setusername(userdet [0].name)
+    setuseremail(userdet [0].email)
+  })
+
+    
+
 const { Meta } = Card;
 const [isModalVisible, setIsModalVisible] = useState(false);
-const q = query(citiesRef, where("name", "==", "ddd"));
-console.log(q.data)
+
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -39,8 +69,8 @@ return(
   >
     <Meta
       avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-      title="Card title"
-      description="This is the description"
+      title={username}
+      description={useremail}
     />
   </Card>,
 
@@ -55,7 +85,7 @@ initialValues={{ remember: true }}
 //onFinishFailed={onFinishFailed}
 autoComplete="off"
 >
-<Form.Item  
+<Form.Item onChange={(e)=>{setusername(e.target.value)}}
   label="Your Name"
   name="Name"
   rules={[{ required: true, message: 'Please input your username!' }]}
@@ -64,7 +94,7 @@ autoComplete="off"
 </Form.Item>
 
 
-<Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+<Form.Item wrapperCol={{ offset: 8, span: 16 }} >
   <Button type="primary" htmlType="submit" >
     Submit
   </Button>

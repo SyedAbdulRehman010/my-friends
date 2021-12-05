@@ -23,6 +23,7 @@ function Signup(){
           setDoc(doc(db, "users", user.uid), {
             name: username,
             id: user.uid,
+            email:email,
            
           })
 

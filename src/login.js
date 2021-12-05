@@ -1,15 +1,19 @@
-import React,{useState} from 'react';
+import React,{useState,createContext} from 'react';
 import { Button, DatePicker, version,Form, Input,Checkbox  } from "antd";
 import {auth} from './config'
 import { useNavigate } from "react-router-dom";   
 import { signInWithEmailAndPassword } from "firebase/auth";
 import './index.css';
-
+import {Home} from './home'
+const Userdet = createContext();
 function Login(){
   const navigate = useNavigate();
   const [username,setusername] = useState('');
   const [email,setemail] = useState('');
   const [password,setpassword] = useState('');
+ 
+  
+
 
 
   const loginHandler = async() => {
@@ -20,8 +24,10 @@ function Login(){
         // Signed in 
         const user = userCredential.user;
         console.log(auth,email,password)
-        console.log('user logged in. ')
-        navigate('/home')
+        console.log('user logged in. ');
+  
+        navigate(`/home/${email}`);
+       
         // ...
       })
       .catch((error) => {
@@ -42,6 +48,7 @@ function Login(){
       
 return(
     <>
+       
     <div className="loginclass">
         <h1 id="h">Please Login</h1>
 <Form
@@ -82,4 +89,4 @@ autoComplete="off"
 </div>
 </>
 )};
-export {Login}
+export {Login,Userdet}
